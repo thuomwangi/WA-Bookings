@@ -1,3 +1,5 @@
 /node_modules
 .env
 /client_secret_366530248998-78pns6aj8ptn17d7pjed7cp6g4i2k3nn.apps.googleusercontent.com.json
+/v2_client_secret_472141455265-7s9525laol196blaf175cm30faknh0g1.apps.googleusercontent.com.json
+/daily_reports.txt
