@@ -28,6 +28,10 @@ app.post('/', (req, res) => {
   res.status(200).end();
 
   const body = req.body;
+
+  // Log the incoming request body
+  console.log('Incoming webhook:', JSON.stringify(body, null, 2));
+
   //only act if the message os from a real user.
   if (!req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
     const status = req.body.entry[0].changes[0].value.statuses[0];
