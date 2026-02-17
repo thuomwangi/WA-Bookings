@@ -5,13 +5,12 @@ const axios = require('axios');
 
 const app = express();
 const baseurl = 'https://graph.facebook.com/v24.0';
-const accessToken = process.env.ACCESS_TOKEN;
+const accessToken = process.env.wa_permanent_token;
 
 app.use(express.json());
 
 
 const port = process.env.PORT;
-const verifyToken = process.env.VERIFY_TOKEN;
 
 
 app.get('/', (req, res) => {
@@ -30,14 +29,13 @@ app.post('/', (req, res) => {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
   console.log(`\n\nWebhook received ${timestamp}\n`);
   console.log(JSON.stringify(req.body, null, 2));
-  //reply_action();
+  reply_action();
   res.status(200).end();
 });
 
 
 //function to handle the webhook
 async function reply_action(){
-  console.log(`Reply Action Called. Access token: ${accessToken}`);
   const payload = {
   "messaging_product": "whatsapp",
   "recipient_type": "individual",
@@ -52,7 +50,7 @@ async function reply_action(){
   const  url= `https://graph.facebook.com/v24.0/354048041134011/messages`;
   const options = {
     method: 'POST',
-    headers: {Authorization: `Bearer EAAMV4bvFNkcBQjMKKKoXZCYuKpJBqxr9bEPOlJZB5ko7OIhZArjLAfIROH5QXlb4vcvZAZAc78VLzszJK3DqlfjUgyCSgXqSsOZCX9ZCGM5mkFpPyFBqeWbeub5hr0rLwaoZAcUnqUsrLTHeDZAZAG1fscytQq2lUkmEFkeUmvlaqdZBPkwzTBZBHTG9ZAgZAT6Ux79XaOVTZCsOYhVoedY3N2vxS5SpkJiOWnJZBqbiwy9C`, 'Content-Type': 'application/json'},
+    headers: {Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json'},
     body: JSON.stringify(payload),
 
     }
@@ -61,25 +59,12 @@ async function reply_action(){
     const response = await fetch(url, options);
     const data = await response.json();
     console.log('Response from Meta API:', JSON.stringify(data, null, 2));
+    return;
   } catch (error) {
     console.error('Fetch error:', error);
   }
 }
-// async function reply_action(){
-//   console.log('Reply Action Called')
-//   try{
-//     const response = await axios.post('https://graph.facebook.com/v24.0/me/messages', {
-//       "recipient": {
-//         "id": "<PSID>"
-//       },
-//       "message": {
-//         "text": "Hello, this is a reply from the webhook!"
-//       }
-//     });
-//   } catch (error){
-//     console.error('Axios error:', error);
-//   }
-// }
+
 
 
 app.listen(port, () => {
