@@ -38,7 +38,8 @@ app.post('/', (req, res) => {
   const body = req.body;
   //only act if the message os from a real user.
   if (!req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
-    console.log(req.body.entry[0].changes[0].value)
+    const status = req.body.entry[0].changes[0].value.statuses[0];
+    console.log(`Reply is ${status.status} for message ID ${status.id}`);
     console.log('Not a real user message. --Ignoring');
     return;
   }
@@ -79,7 +80,7 @@ async function reply_action(toPhone){
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-    console.log('Response from Meta API:', JSON.stringify(data, null, 2));
+    //console.log('Response from Meta API:', JSON.stringify(data, null, 2));
     return;
   } catch (error) {
     console.error('Fetch error:', error);
