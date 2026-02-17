@@ -25,22 +25,41 @@ app.get('/', (req, res) => {
 });
 
 
+// app.post('/', (req, res) => {
+//   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
+//   console.log(`\n\nWebhook received ${timestamp}\n`);
+//   console.log(JSON.stringify(req.body, null, 2));
+//   res.status(200).end();
+// });
+
 app.post('/', (req, res) => {
-  const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
-  console.log(`\n\nWebhook received ${timestamp}\n`);
-console.log('Access Token:', `Bearer ${accessToken}`);  
-  console.log(JSON.stringify(req.body, null, 2));
-  reply_action();
+  const body = req.body;
   res.status(200).end();
-});
+
+  //only act if the message os from a real user.
+  if (!body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
+    console.log('Not a real user message. --Ignoring');
+    return;
+  }
+
+  const message = body.entry[0].changes[0].value.messages[0];
+  const from = message.from;
+  const text = message.text?.body || 'No text content';
+
+  console.log(`Username message from ${from}: ${text}`);
+
+
+  reply_action(from);
+
+})
 
 
 //function to handle the webhook
-async function reply_action(){
+async function reply_action(toPhone){
   const payload = {
   "messaging_product": "whatsapp",
   "recipient_type": "individual",
-  "to": "254797263246",
+  "to": toPhone,
   "type": "text",
   "text": {
     "preview_url": false,
