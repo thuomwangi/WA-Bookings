@@ -51,7 +51,7 @@ app.post('/', (req, res) => {
 });
 
 reply_to_list_action = async (prod_name, toPhone) => {
-  const r_payload = {
+  const payload = {
     "messaging_product": "whatsapp",
     "recipient_type": "individual",
     "to": toPhone,
