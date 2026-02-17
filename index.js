@@ -39,7 +39,7 @@ app.post('/', (req, res) => {
   const from = message.from;
   const text = message.text?.body || 'No text content';
 
-  console.log(req.body?.entry?.[0]?.changes?.[0]?.value);
+  console.log(req.body?.entry?.[0]?.changes?.[0]?.value.messages?.[0].context);
 
   console.log(`Message from ${from}: ${text}`);
 
