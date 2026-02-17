@@ -56,7 +56,7 @@ async function reply_action(){
   }
 
   try {
-    const response = await axio.post(url, options);
+    const response = await axios.post(url, options);
     const data = await response.json();
     console.log('Response from Meta API:', data);
   } catch (error) {
