@@ -40,7 +40,6 @@ app.post('/', (req, res) => {
   if (!req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
     const status = req.body.entry[0].changes[0].value.statuses[0];
     console.log(`Reply is ${status.status} for message ID ${status.id}`);
-    console.log('Not a real user message. --Ignoring');
     return;
   }
 
