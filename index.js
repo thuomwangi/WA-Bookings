@@ -39,9 +39,8 @@ app.post('/', (req, res) => {
   const from = message.from;
   const text = message.text?.body || message?.interactive?.product_reply?.title || "No text content";
 
-  console.log(req.body?.entry?.[0]?.changes?.[0]?.value.messages?.[0].interactive);
-  const prod_id = message?.interactive?.product_reply?.product_id;
-  const prod_name = message?.interactive?.product_reply?.title;
+  const ls_slctn_body = req.body?.entry?.[0]?.changes?.[0]?.value.messages?.[0].interactive;
+  const prod_name = ls_slctn_body?.list_reply?.title || "Unknown Product";
 
   console.log(`Message from ${from}: ${text}`); 
 
