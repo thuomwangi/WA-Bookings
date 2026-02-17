@@ -38,7 +38,7 @@ app.post('/', (req, res) => {
   const body = req.body;
   //only act if the message os from a real user.
   if (!req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
-    console.log(req.body)
+    console.log(req.body.entry[0].changes[0].value)
     console.log('Not a real user message. --Ignoring');
     return;
   }
