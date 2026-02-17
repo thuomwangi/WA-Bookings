@@ -43,12 +43,12 @@ app.post('/', (req, res) => {
   const prod_id = message?.interactive?.product_reply?.product_id;
   const prod_name = message?.interactive?.product_reply?.title;
 
-  console.log(`Message from ${from}: ${text}`);
+  console.log(`Message from ${from}: ${text}`); 
 
-  reply_action(from);
+  //reply_action(from);
   reply_to_list_action(prod_name, from);  
 
-})
+});
 
 reply_to_list_action = async (prod_name, toPhone) => {
   const payload = {
