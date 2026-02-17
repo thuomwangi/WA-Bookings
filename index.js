@@ -42,6 +42,7 @@ async function reply_action(){
   const options = {
     method: 'POST',
     headers: {Authorization: `Bearer EAAMV4bvFNkcBQjMKKKoXZCYuKpJBqxr9bEPOlJZB5ko7OIhZArjLAfIROH5QXlb4vcvZAZAc78VLzszJK3DqlfjUgyCSgXqSsOZCX9ZCGM5mkFpPyFBqeWbeub5hr0rLwaoZAcUnqUsrLTHeDZAZAG1fscytQq2lUkmEFkeUmvlaqdZBPkwzTBZBHTG9ZAgZAT6Ux79XaOVTZCsOYhVoedY3N2vxS5SpkJiOWnJZBqbiwy9C`, 'Content-Type': 'application/json'},
+    body: {
       "messaging_product": "whatsapp",
       "recipient_type": "individual",
       "to": "254797263246",
@@ -49,13 +50,13 @@ async function reply_action(){
       "text": {
         "preview_url": false,
         "body": "Hello, this is a reply from the webhook!"
-      
+      }
     },
     json: true
   }
 
   try {
-    const response = await fetch(url, options);
+    const response = await axios(url, options);
     const data = await response.json();
     console.log('Response from Meta API:', data);
   } catch (error) {
