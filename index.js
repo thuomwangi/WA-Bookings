@@ -37,20 +37,34 @@ app.post('/', (req, res) => {
 
   const message = body.entry[0].changes[0].value.messages[0];
   const from = message.from;
-  const text = message.text?.body || 'No text content';
+  const text = message.text?.body;
 
   console.log(req.body?.entry?.[0]?.changes?.[0]?.value.messages?.[0].interactive);
+  const prod_id = message?.interactive?.product_reply?.product_id;
+  const prod_name = message?.interactive?.product_reply?.title;
 
   console.log(`Message from ${from}: ${text}`);
 
-
   reply_action(from);
+  reply_to_list_action(prod_name, from);  
 
 })
 
+reply_to_list_action = async (prod_name, toPhone) => {
+  const payload = {
+    "messaging_product": "whatsapp",
+    "recipient_type": "individual",
+    "to": toPhone,
+    "type": "text",
+    "text": {
+      "preview_url": false,
+      "body": "Confirmed Order for " + prod_name
+    }
+  };
 
-//function to handle the webhook
-async function reply_action(toPhone){
+}
+
+reply_action = async (toPhone) => {
   const payload = {
   "messaging_product": "whatsapp",
   "recipient_type": "individual",
