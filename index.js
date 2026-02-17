@@ -28,17 +28,16 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
-  //fetch the sender ID from the req
   console.log(`\n\nWebhook received ${timestamp}\n`);
   console.log(JSON.stringify(req.body, null, 2));
-  //reply_action();
+  reply_action();
   res.status(200).end();
 });
 
 //function to handle the webhook
 
 async function reply_action(){
-
+  console.log('Reply Action Called');
   const  url= `${baseurl}/me/messages`;
   const options = {
     method: 'POST',
