@@ -16,7 +16,6 @@ app.get('/', (req, res) => {
   const { 'hub.mode': mode, 'hub.challenge': challenge, 'hub.verify_token': token } = req.query;
 
   if (mode === 'subscribe' && token === verifyToken) {
-    console.log('This is the req JSON',req.query)
     console.log('WEBHOOK VERIFIED');
     res.status(200).send(challenge);
   } else {
@@ -26,6 +25,7 @@ app.get('/', (req, res) => {
 
 
 app.post('/', (req, res) => {
+  console.log('This is the req JSON',req.query)
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
   console.log(`\n\nWebhook received ${timestamp}\n`);
   console.log(JSON.stringify(req.body, null, 2));
