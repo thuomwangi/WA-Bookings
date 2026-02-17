@@ -37,7 +37,7 @@ app.post('/', (req, res) => {
 
   const message = body.entry[0].changes[0].value.messages[0];
   const from = message.from;
-  const text = message.text?.body;
+  const text = message.text?.body || message?.interactive?.product_reply?.title || "No text content";
 
   console.log(req.body?.entry?.[0]?.changes?.[0]?.value.messages?.[0].interactive);
   const prod_id = message?.interactive?.product_reply?.product_id;
@@ -61,7 +61,23 @@ reply_to_list_action = async (prod_name, toPhone) => {
       "body": "Confirmed Order for " + prod_name
     }
   };
+ 
+   const  url= `https://graph.facebook.com/v24.0/354048041134011/messages`;
+  const options = {
+    method: 'POST',
+    headers: {Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
 
+    }
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    //console.log('Response from Meta API:', JSON.stringify(data, null, 2));
+    return;
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
 }
 
 reply_action = async (toPhone) => {
@@ -80,7 +96,7 @@ reply_action = async (toPhone) => {
   const options = {
     method: 'POST',
     headers: {Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json'},
-    body: JSON.stringify(r_payload),
+    body: JSON.stringify(payload),
 
     }
 
