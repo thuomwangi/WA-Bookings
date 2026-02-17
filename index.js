@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   res.status(200).end();
 
+  const body = req.body;
   //only act if the message os from a real user.
   if (!req.body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]) {
     console.log(req.body)
@@ -46,7 +47,7 @@ app.post('/', (req, res) => {
   const from = message.from;
   const text = message.text?.body || 'No text content';
 
-  console.log(`Username message from ${from}: ${text}`);
+  console.log(`Message from ${from}: ${text}`);
 
 
   reply_action(from);
