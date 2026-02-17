@@ -51,7 +51,7 @@ app.post('/', (req, res) => {
 });
 
 reply_to_list_action = async (prod_name, toPhone) => {
-  const payload = {
+  const r_payload = {
     "messaging_product": "whatsapp",
     "recipient_type": "individual",
     "to": toPhone,
@@ -80,7 +80,7 @@ reply_action = async (toPhone) => {
   const options = {
     method: 'POST',
     headers: {Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json'},
-    body: JSON.stringify(payload),
+    body: JSON.stringify(r_payload),
 
     }
 
