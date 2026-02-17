@@ -37,7 +37,7 @@ app.post('/', (req, res) => {
 //function to handle the webhook
 
 async function reply_action(){
-  console.log('Reply Action Called');
+  console.log(`Reply Action Called. Access token: ${accessToken}`);
   const  url= `https://graph.facebook.com/v24.0/354048041134011/messages`;
   const options = {
     method: 'POST',
