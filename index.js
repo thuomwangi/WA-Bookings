@@ -174,11 +174,18 @@ createWatchChannel = async () => {
   };
 
   try {
+    const resposne = await calendar.events.watch({
+      calendarId: '',
+      requestBody: channel,
+    });
+    console.log('Watch channel created:', resposne.data);
     
   } catch (error) {
     console.log('Error creating watch:', error);
   }
 }
+
+createWatchChannel();
 
 
 
