@@ -1,16 +1,25 @@
 const express = require('express');
 require('dotenv').config();
 const axios = require('axios');
+const { calendar } = require('googleapis/build/src/apis/calendar');
+const { google } = require('googleapis');
 
 
 const app = express();
+const port = process.env.PORT;
 const baseurl = 'https://graph.facebook.com/v24.0';
 const accessToken = process.env.wa_permanent_token;
+const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+const calendar = google.calendar({ version: 'v3', auth });
+let syncToken = null; 
+const auth = new google.auth.GoogleAuth({
+  credentials, 
+  scopes: ['https://www.googleapis.com/auth/calendar.events'],
+});
+
 
 app.use(express.json());
 
-
-const port = process.env.PORT;
 
 
 app.get('/', (req, res) => {
@@ -110,6 +119,64 @@ reply_action = async (toPhone) => {
     return;
   } catch (error) {
     console.error('Fetch error:', error);
+  }
+}
+
+app.post('/google-calendar-webhook', async (req, res) => {
+  console.log(req.headers);
+
+  const resourceState = req.headers['x-goog-resource-state'];
+  const channelId = req.headers['x-goog-channel-id'];
+
+  res.status(200).send('OK');
+
+  if (resourceState === 'sync') {
+    //Initial sync notification; ignore or handle as needed
+    return;
+  } else if (resourceState === 'exists') {
+    //Resource changed; fetch updates
+    try {
+      const response = await calendar.events.list({
+        calendarId: "",
+        syncToken: syncToken,
+        singleEvents: true,
+      });
+
+      const events = resposen.data.items;
+      //process new/updated events
+      events.forEach(event => {
+        if (event.status === 'confirmed'){
+          console.log('New appointment details:', event);
+          //logic to send whatsapp message with event details
+
+
+        }
+      });
+
+      //update the syncToken for the next fetch
+      syncToken = response.data.nextSyncToken;
+    } catch (error) {
+      console.log('Error fetching events:', error);
+    }
+  } else if (resourceState === 'not_exists') {
+    //Resource deleted; handle if relevant
+  }
+});
+
+// Function to create a watch channel for Google Calendar events
+createWatchChannel = async () => {
+  const channel = {
+    id: 'unique-channel-id-' + Date.now(), 
+    type: 'web_hook',
+    address: 'https://wa-bookings.onrender.com',
+    token: '',
+    expiration: Date.now() + (7 * 24 * 60 * 60 * 1000),
+  };
+
+  try {
+    
+  } catch (error) {
+    console.log('Error creating watch:', error);
   }
 }
 
